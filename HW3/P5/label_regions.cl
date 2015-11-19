@@ -27,6 +27,29 @@ get_clamped_value(__global __read_only int *labels,
     return labels[y * w + x];
 }
 
+// returns the smallest value of 5 values
+int min_val(int a, int b, int c, int d, int e)
+{
+    int val1 = a;
+    int val2 = d;
+    int toret;
+ 
+    if (b < a)
+        val1 = b;
+    if (e < d)
+        val2 = e;
+ 
+    if (val1 < val2)
+        toret = val1;
+    else
+        toret = val2;
+  
+    if (c < toret)
+        toret = c;
+  
+    return toret;
+}
+
 __kernel void
 propagate_labels(__global __read_write int *labels,
                  __global __write_only int *changed_flag,
@@ -81,12 +104,23 @@ propagate_labels(__global __read_write int *labels,
 
     // CODE FOR PARTS 2 and 4 HERE (part 4 will replace part 2)
     
+    // to make readability easier for new_label
+    int m = (buf_x + 0) + (buf_y + 0) * buf_w;
+    int t = (buf_x + 0) + (buf_y - 1) * buf_w;
+    int b = (buf_x + 0) + (buf_y + 1) * buf_w;
+    int l = (buf_x - 1) + (buf_y + 0) * buf_w;
+    int r = (buf_x + 1) + (buf_y + 0) * buf_w;
+
     // stay in bounds
     if ((x < w) && (y < h)) {
         // CODE FOR PART 1 HERE
         // We set new_label to the value of old_label, but you will need
         // to adjust this for correctness.
         new_label = old_label;
+        if (new_label < (w * h)) {
+            new_label = min_val(buffer[m], buffer[t], buffer[b],
+                                buffer[l], buffer[r]);
+        }
 
         if (new_label != old_label) {
             // CODE FOR PART 3 HERE
