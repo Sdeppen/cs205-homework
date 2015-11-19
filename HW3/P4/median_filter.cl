@@ -85,15 +85,15 @@ median_3x3(__global __read_only float *in_values,
 	// Should only use buffer, buf_x, buf_y.
     	// write output
 
-	const int topr = (buf_x - 1) * (buf_y - 1) * buf_w;
-	const int topm = (buf_x + 0) * (buf_y - 1) * buf_w;
-	const int topl = (buf_x + 1) * (buf_y - 1) * buf_w;
-	const int midr = (buf_x - 1) * (buf_y + 0) * buf_w;
-	const int midm = (buf_x + 0) * (buf_y + 0) * buf_w; 
-	const int midl = (buf_x + 1) * (buf_y + 0) * buf_w;
-	const int botr = (buf_x - 1) * (buf_y + 1) * buf_w;
-	const int botm = (buf_x + 0) * (buf_y + 1) * buf_w;
-	const int botl = (buf_x + 1) * (buf_y + 1) * buf_w;
+	const int topr = (buf_x - 1) + (buf_y - 1) * buf_w;
+	const int topm = (buf_x + 0) + (buf_y - 1) * buf_w;
+	const int topl = (buf_x + 1) + (buf_y - 1) * buf_w;
+	const int midr = (buf_x - 1) + (buf_y + 0) * buf_w;
+	const int midm = (buf_x + 0) + (buf_y + 0) * buf_w; 
+	const int midl = (buf_x + 1) + (buf_y + 0) * buf_w;
+	const int botr = (buf_x - 1) + (buf_y + 1) * buf_w;
+	const int botm = (buf_x + 0) + (buf_y + 1) * buf_w;
+	const int botl = (buf_x + 1) + (buf_y + 1) * buf_w;
 
     	if ((x < w) && (y < h)) // stay in bounds
         	out_values[x + y * w] = median9(buffer[topr], buffer[topm], buffer[topl],
