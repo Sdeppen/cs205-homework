@@ -1,0 +1,57 @@
+Part 1:
+
+Maze1
+Finished after 877 iterations, 456.51696 ms total, 0.520543854048 ms per iteration
+Found 2 regions
+
+Maze2
+Finished after 508 iterations, 264.27288 ms total, 0.520222204724 ms per iteration
+Found 35 regions
+
+————————
+
+Part 2:
+
+Maze1
+Finished after 529 iterations, 314.2568 ms total, 0.594058223062 ms per iteration
+Found 2 regions
+
+Maze2
+Finished after 273 iterations, 162.44656 ms total, 0.595042344322 ms per iteration
+Found 35 regions
+
+—————————
+
+Part 3:
+
+Maze1
+Finished after 11 iterations, 5.47864 ms total, 0.498058181818 ms per iteration
+Found 2 regions
+
+Maze2
+Finished after 10 iterations, 4.95272 ms total, 0.495272 ms per iteration
+Found 35 regions
+
+—————————
+
+Part 4:
+
+Maze1
+Finished after 10 iterations, 16.98744 ms total, 1.698744 ms per iteration
+Found 2 regions
+
+Maze2
+Finished after 9 iterations, 15.15 ms total, 1.68333333333 ms per iteration
+Found 35 regions
+
+Discussion for Part 4:
+
+Compared to my results for part 2, part 4 took longer per iteration. When using a single thread for workgroup, we don’t have to worry about reading global memory multiple times unnecessarily, however it slows down the computing time quite a bit. In this case, by using multiple threads per workgroup, it seems that despite being inefficient with the possibility of reading from the memory multiple times it is still more effective and a better choice. 
+
+———————
+
+Discussion for Part 5:
+By using min and not the atomic_min operator, the program will be faster due to concurrent writes in which each thread has to wait for one another until allowed to write to memory, which in this case is into labels[]. By using min to remove the use of serialization required for atomic operations, the threads can run simultaneously and thus faster. However, since there is no way to control the amount of threads writing into memory at one time, race conditions can occur mess up the result of the program if threads overwrite one another. 
+
+
+
